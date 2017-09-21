@@ -1,0 +1,1 @@
+addSbtPlugin("org.skinny-framework" % "sbt-servlet-plugin" % "2.2.3")
