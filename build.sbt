@@ -7,7 +7,7 @@ lazy val root = (project in file("."))
       version := "0.1",
       scalaVersion := "2.12.3",
       resolvers += "sonatype releases" at "https://oss.sonatype.org/content/repositorie/releases",
-      resolvers += "anormcypher" at "http://repo.anormcypher.org/",
+//      resolvers += "anormcypher" at "http://repo.anormcypher.org/",
       libraryDependencies ++= Seq(
         // micro Web framework
         "org.skinny-framework" %% "skinny-micro"             % skinnyMicroVersion,
@@ -17,7 +17,7 @@ lazy val root = (project in file("."))
         "org.skinny-framework" %% "skinny-micro-server"      % skinnyMicroVersion,
         "org.eclipse.jetty" % "jetty-webapp" % jettyVersion % "container",
         "org.eclipse.jetty" % "jetty-plus"   % jettyVersion % "container",
-        "org.anormcypher" %% "anormcypher" % "0.6.0"
+//        "org.anormcypher" %% "anormcypher" % "0.6.0"
       )
     )
     .settings(servletSettings)
