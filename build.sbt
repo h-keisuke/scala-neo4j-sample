@@ -1,6 +1,9 @@
 lazy val skinnyMicroVersion = "1.2.7"
 lazy val jettyVersion = "9.4.5.v20170502"
 
+lazy val stage = taskKey[Unit]("Stage task")
+lazy val Stage = config("stage")
+
 lazy val root = (project in file("."))
     .settings(
       name := "scala-neo4j",
