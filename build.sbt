@@ -18,7 +18,7 @@ lazy val root = (project in file("."))
         "org.eclipse.jetty" % "jetty-webapp" % jettyVersion % "container",
         "org.eclipse.jetty" % "jetty-plus"   % jettyVersion % "container"
       ),
-      mainClass in Compile := ("skinny.standalone.JettyLauncher"),
+      mainClass in Compile := Some("skinny.standalone.JettyLauncher"),
       // add src/main/webapp to unmanaged resources for sbt-start-script
       unmanagedResourceDirectories in Compile <++= baseDirectory { base => 
           sys.env.get("LOCAL_DEV").map(_ => Seq.empty).getOrElse(Seq(base / "src/main/webapp"))
