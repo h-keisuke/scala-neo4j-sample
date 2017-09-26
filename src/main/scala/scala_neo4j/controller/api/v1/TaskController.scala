@@ -26,6 +26,7 @@ object TaskController extends WebApp with JSONSupport with JSONParamsAutoBinderS
   }
 
   post("/api/v1/tasks"){
+    println(params)
     params.getAs[String]("title") match {
       case Some(t) => params.getAs[String]("description") match {
         case Some(d) => Created(responseAsJSON(TaskService.create(t, d)),Map("Content-Type" -> "application/json"))
