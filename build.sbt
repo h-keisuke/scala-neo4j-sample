@@ -16,7 +16,8 @@ lazy val root = (project in file("."))
         // Standalone Web server (Jetty 9.3 / Servlet 3.1)
         "org.skinny-framework" %% "skinny-micro-server"      % skinnyMicroVersion,
         "org.eclipse.jetty" % "jetty-webapp" % jettyVersion % "container",
-        "org.eclipse.jetty" % "jetty-plus"   % jettyVersion % "container"
+        "org.eclipse.jetty" % "jetty-plus"   % jettyVersion % "container",
+        "org.neo4j.driver" % "neo4j-java-driver" % "1.4.4"
       ),
       mainClass in Compile := Some("skinny.standalone.JettyLauncher"),
       // add src/main/webapp to unmanaged resources for sbt-start-script

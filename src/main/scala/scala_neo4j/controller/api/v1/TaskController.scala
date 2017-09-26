@@ -3,35 +3,38 @@ package scala_neo4j.controller.api.v1
 import org.json4s.jackson.Serialization.write
 import skinny.micro.WebApp
 import skinny.micro.contrib.json4s.JSONSupport
-import skinny.micro.response.{Created, Ok}
+import skinny.micro.response.{BadRequest, Created, NotFound, Ok}
 
 import scala_neo4j.resource.TaskResource
+import scala_neo4j.service.TaskService
 
 object TaskController extends WebApp with JSONSupport{
 
   get("/api/v1/tasks/:id"){
-    val id = params.getAs[Long]("id")
-    Ok(
-      responseAsJSON(TaskResource(id.getOrElse(0), "たすく", "たすくのなかみ")),
-      Map("Content-Type" -> "application/json")
-    )
+    params.getAs[Long]("id") match {
+      case Some(id) => TaskService.findById(id) match {
+        case Some(t) => Ok(responseAsJSON(t), Map("Content-Type" -> "application/json"))
+        case None => NotFound
+      }
+      case None => NotFound
+    }
   }
 
   get("/api/v1/tasks"){
-    val id = params.getAs[Long]("id")
     Ok(
-      responseAsJSON(TaskResource(id.getOrElse(0), "たすく", "たすくのなかみ")),
+      responseAsJSON(TaskService.findAll()),
       Map("Content-Type" -> "application/json")
     )
   }
 
   post("/api/v1/tasks"){
-    val title = params.get("title")
-    val description = params.get("description")
-    Created(
-      write(TaskResource(2, title.getOrElse(""), description.getOrElse(""))),
-      Map("Content-Type" -> "application/json")
-    )
+    params.get("title") match {
+      case Some(t) => params.get("description") match {
+        case Some(d) => Created(responseAsJSON(TaskService.create(t, d)),Map("Content-Type" -> "application/json"))
+        case None => BadRequest
+      }
+      case None => BadRequest
+    }
   }
 
 }
