@@ -6,7 +6,7 @@ import skinny.micro.response.{BadRequest, Created, NotFound, Ok}
 
 import scala_neo4j.service.TaskService
 
-object TaskController extends WebApp with JSONSupport with JSONParamsAutoBinderSupport{
+object TaskController extends WebApp with JSONSupport {
 
   get("/api/v1/tasks/:id"){
     params.getAs[Long]("id") match {
@@ -26,7 +26,7 @@ object TaskController extends WebApp with JSONSupport with JSONParamsAutoBinderS
   }
 
   post("/api/v1/tasks"){
-    println(params.keySet.mkString(","))
+    println(params.mkString(","))
     params.getAs[String]("title") match {
       case Some(t) => params.getAs[String]("description") match {
         case Some(d) => Created(responseAsJSON(TaskService.create(t, d)),Map("Content-Type" -> "application/json"))
