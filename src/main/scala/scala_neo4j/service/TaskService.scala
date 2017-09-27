@@ -58,7 +58,7 @@ object TaskService {
   def delete(id: Long): Unit = {
     val session = driver.session(AccessMode.WRITE)
     try{
-      session.run(s"MATCH (t:Task) WHERE id(t) = $id DETACH DELETE n")
+      session.run(s"MATCH (t:Task) WHERE id(t) = $id DETACH DELETE t")
     }finally {
       session.close()
     }
