@@ -20,9 +20,8 @@ object TaskService {
     try {
       val newRecord = session.run(s"CREATE (task:Task {title: {title}, description: {description} }) " +
         s"RETURN id(task) as nodeId, task.title as title, task.description as description",
-        parameters(title, description)
-      )
-        .single()
+        parameters("title", title, "description", description)
+      ).single()
       TaskResource(newRecord.get("nodeId", 0), newRecord.get("title", ""), newRecord.get("description", ""))
     } finally {
       session.close()
