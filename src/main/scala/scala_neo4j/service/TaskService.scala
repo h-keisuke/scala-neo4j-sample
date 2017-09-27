@@ -1,6 +1,7 @@
 package scala_neo4j.service
 
 import org.neo4j.driver.v1._
+import org.neo4j.driver.v1.Values.parameters
 import org.neo4j.driver.v1.exceptions.NoSuchRecordException
 
 import scala_neo4j.resource.TaskResource
@@ -17,7 +18,10 @@ object TaskService {
 
     val session = driver.session
     try {
-      val newRecord = session.run(s"CREATE (task:Task {title: $title, description: $description}) RETURN id(task) as nodeId, task.title as title, task.description as description")
+      val newRecord = session.run(s"CREATE (task:Task {title: {title}, description: {description} }) " +
+        s"RETURN id(task) as nodeId, task.title as title, task.description as description",
+        parameters(title, description)
+      )
         .single()
       TaskResource(newRecord.get("nodeId", 0), newRecord.get("title", ""), newRecord.get("description", ""))
     } finally {

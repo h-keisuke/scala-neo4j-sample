@@ -35,7 +35,7 @@ object TaskController extends WebApp with JSONSupport {
         toJSONString(TaskService.create(t.title, t.description)),
         Map("Content-Type" -> "application/json")
       )
-      case Failure(_) => BadRequest
+      case Failure(e) => BadRequest(e.getMessage)
     }
   }
 
