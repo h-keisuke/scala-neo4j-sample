@@ -1,5 +1,7 @@
 package scala_neo4j.service
 
+import java.lang
+
 import org.neo4j.driver.v1._
 import org.neo4j.driver.v1.Values.parameters
 import org.neo4j.driver.v1.exceptions.NoSuchRecordException
@@ -48,6 +50,15 @@ object TaskService {
       Some(TaskResource(record.get("nodeId", 0), record.get("title", ""), record.get("description", "")))
     }catch {
       case _: NoSuchRecordException => None
+    }finally {
+      session.close()
+    }
+  }
+
+  def delete(id: Long): Unit = {
+    val session = driver.session(AccessMode.WRITE)
+    try{
+      session.run(s"MATCH (t:Task) WHERE id(t) = $id DETACH DELETE n")
     }finally {
       session.close()
     }

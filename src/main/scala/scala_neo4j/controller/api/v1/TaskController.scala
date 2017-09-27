@@ -2,9 +2,9 @@ package scala_neo4j.controller.api.v1
 
 import skinny.micro.WebApp
 import skinny.micro.contrib.json4s.JSONSupport
-import skinny.micro.response.{BadRequest, Created, NotFound, Ok}
+import skinny.micro.response._
 
-import scala.util.{Failure, Success, Try}
+import scala.util.{Failure, Success}
 import scala_neo4j.service.TaskService
 
 case class TaskRequest(title: String, description: String)
@@ -38,4 +38,13 @@ object TaskController extends WebApp with JSONSupport {
     }
   }
 
+  delete("/api/v1/tasks/:id"){
+    params.getAs[Long]("id") match {
+      case Some(id) => {
+        TaskService.delete(id)
+        NoContent
+      }
+      case None => BadRequest
+    }
+  }
 }
