@@ -9,9 +9,9 @@ import collection.JavaConverters._
 
 object TaskService {
 
-  val graphenedbURL: String = System.getenv("GRAPHENEDB_BOLT_URL")
-  val graphenedbUser: String = System.getenv("GRAPHENEDB_BOLT_USER")
-  val graphenedbPass: String = System.getenv("GRAPHENEDB_BOLT_PASSWORD")
+  val graphenedbURL: String = sys.env("GRAPHENEDB_BOLT_URL")
+  val graphenedbUser: String = sys.env("GRAPHENEDB_BOLT_USER")
+  val graphenedbPass: String = sys.env("GRAPHENEDB_BOLT_PASSWORD")
   val driver: Driver = GraphDatabase.driver(graphenedbURL, AuthTokens.basic(graphenedbUser, graphenedbPass))
 
   def create(title: String, description: String): TaskResource = {

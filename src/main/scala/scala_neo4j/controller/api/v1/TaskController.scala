@@ -1,7 +1,7 @@
 package scala_neo4j.controller.api.v1
 
 import skinny.micro.WebApp
-import skinny.micro.contrib.json4s.{JSONParamsAutoBinderSupport, JSONSupport}
+import skinny.micro.contrib.json4s.JSONSupport
 import skinny.micro.response.{BadRequest, Created, NotFound, Ok}
 
 import scala.util.{Failure, Success, Try}
@@ -29,8 +29,7 @@ object TaskController extends WebApp with JSONSupport {
   }
 
   post("/api/v1/tasks"){
-    val newTask: Try[TaskRequest] =fromJSONString[TaskRequest](request.body)
-    newTask match {
+    fromJSONString[TaskRequest](request.body) match {
       case Success(t) => Created(
         toJSONString(TaskService.create(t.title, t.description)),
         Map("Content-Type" -> "application/json")
